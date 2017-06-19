@@ -1,0 +1,107 @@
+DROP TABLE summoner cascade constraints;
+DROP TABLE champion cascade constraints;
+DROP TABLE skin cascade constraints;
+DROP TABLE champion_skin cascade constraints;
+DROP TABLE rank cascade constraints;
+DROP TABLE game cascade constraints;
+
+CREATE TABLE summoner
+(
+	sum_name		    VARCHAR2(30),
+  rank_number		  NUMBER,
+  game_id         VARCHAR2(30),
+	skin_name		    VARCHAR2(30),
+	champ_name		  VARCHAR2(30),
+	sum_winrate		  NUMBER,
+	total_games		  NUMBER,
+	sum_most_played	VARCHAR2(30),
+	sum_team_color	VARCHAR2(30)
+);
+
+CREATE TABLE champion
+(
+	champ_name		  VARCHAR2(30),
+	champ_winrate	  NUMBER,
+	champ_abilities	VARCHAR2(30),
+	champ_counters	VARCHAR2(30)
+);
+
+CREATE TABLE skin
+(
+	skin_name		      VARCHAR2(30),
+	skin_type		      VARCHAR2(30),
+	skin_availability 	VARCHAR2(30),
+	skin_release_yr   	VARCHAR2(30)
+);
+
+
+CREATE TABLE champion_skin
+(
+  champ_name    VARCHAR2(30),
+  skin_name     VARCHAR2(30),
+  cs_cost_rp       NUMBER,
+  cs_cost_dol    VARCHAR2(30)
+);
+
+CREATE TABLE rank
+(
+	rank_number		  NUMBER,
+  rank_division   VARCHAR2(30),
+  rank_season     VARCHAR2(30), 
+  rank_rewards    VARCHAR2(60)
+);
+
+CREATE TABLE game
+(
+	game_id         VARCHAR2(30),
+	game_type       VARCHAR2(30),
+  game_duration   VARCHAR2(30),
+  game_winner     VARCHAR2(30)
+);
+
+
+--alter tables PRIMARY KEYS
+ALTER TABLE summoner	
+ADD CONSTRAINT sumname_pk PRIMARY KEY (sum_name);
+
+ALTER TABLE champion
+ADD CONSTRAINT champname_pk PRIMARY KEY (champ_name);
+
+ALTER TABLE skin
+ADD CONSTRAINT skinname_pk PRIMARY KEY (skin_name);
+
+ALTER TABLE champion_skin
+ADD CONSTRAINT champ_skin_pk PRIMARY KEY (champ_name, skin_name);
+
+ALTER TABLE rank
+ADD CONSTRAINT ranknumber_pk PRIMARY KEY (rank_number);
+
+ALTER TABLE game
+ADD CONSTRAINT gameid_pk PRIMARY KEY (game_id);
+
+
+
+
+
+
+--alter tables FOREIGN KEYS
+
+ALTER TABLE summoner
+ADD CONSTRAINT sum_game_id_fk FOREIGN KEY (game_id) REFERENCES game (game_id);
+
+ALTER TABLE summoner
+ADD CONSTRAINT sum_skin_name_fk FOREIGN KEY (skin_name) REFERENCES skin (skin_name);
+
+ALTER TABLE summoner
+ADD CONSTRAINT sum_rank_num_fk FOREIGN KEY (rank_number) REFERENCES rank (rank_number);
+
+ALTER TABLE summoner
+ADD CONSTRAINT sum_champ_name_fk FOREIGN KEY (champ_name) REFERENCES champion (champ_name);
+
+ALTER TABLE champion_skin
+ADD CONSTRAINT cs_champ_fk FOREIGN KEY (champ_name) REFERENCES champion (champ_name);
+
+ALTER TABLE champion_skin
+ADD CONSTRAINT cs_skin_fk FOREIGN KEY (skin_name) REFERENCES skin (skin_name);
+
+

@@ -1,0 +1,60 @@
+-----------------------QUERIES----------------------------------------
+--Format typically used column headings
+COLUMN sum_name HEADING 'Summoner';
+COLUMN rank_number HEADING 'Rank Number';
+COLUMN game_id HEADING 'Game ID';
+
+--Calculate how much (in rp) it would cost to buy all the arcade skins available from the table champion_skin
+--rp refers to riot points, the currency that the game uses
+SELECT count(*) AS number_of_skins,
+  SUM(cs_cost_rp) AS Total_Cost_RP
+  FROM champion_skin
+WHERE skin_name = 'Arcade';
+
+
+--Calculate how much (in DOLLARS) it would cost to buy all the arcade skins available from the table champion_skin
+SELECT count(*) AS number_of_skins,
+ '$' || SUM(CAST(cs_cost_dol AS VARCHAR(5))) AS Total_Cost
+ FROM champion_skin
+WHERE skin_name = 'Arcade';
+
+
+--Return which champions have the PROJECT skins, and be sure that the skin name is all uppercase.
+SELECT UPPER(skin_name), champ_name FROM champion_skin
+WHERE skin_name = 'Project';
+
+
+--How long was the game (the duration) that the summoners 'Emberburn' and his friend 'Emberfire' participated in?
+SELECT sum_name AS "summoner" , game_duration AS "game time"
+FROM game 
+INNER JOIN summoner
+ON game.game_id = summoner.game_id
+WHERE sum_name IN ('Emberburn', 'Emberfire');
+
+--Return the names of the all winners in each game
+SELECT sum_name, sum_team_color, g.game_id FROM summoner s
+INNER JOIN game g ON s.game_id = g.game_id
+where sum_team_color = game_winner;
+
+--Find all the games where the average win rate of all summoners is higher than 50%
+SELECT game_id, ROUND(AVG(CAST(sum_winrate AS VARCHAR(5))), 2) || '%' AS Win_Percentage 
+FROM summoner
+GROUP BY game_id
+HAVING AVG(sum_winrate) > 50
+ORDER BY Win_Percentage;
+
+--Show the summoners, along with their rank numbers, that had been rewarded at least the victorious ward
+--The victorious ward is a prize handed out at the end of the season for reaching a minimum rank
+--additional prizes are given the higher you rank
+SELECT s.sum_name, r.rank_number, rank_rewards
+FROM summoner s LEFT JOIN rank r
+  ON s.rank_number = r.rank_number
+WHERE rank_rewards LIKE 'victorious ward%'
+ORDER BY rank_number DESC;
+
+--Champions with lower win percentages are generally not played and players may wish to search for which champions are above average
+--Display the champions, and all their attributes, that have a greater than total average winrate, and order by the highest champ_winrate
+SELECT * FROM champion
+WHERE champ_winrate >
+  (SELECT AVG(champ_winrate) FROM champion)
+ORDER BY champ_winrate DESC;
