@@ -7,45 +7,45 @@ DROP TABLE game cascade constraints;
 
 CREATE TABLE summoner
 (
-	sum_name		    VARCHAR2(30),
-  rank_number		  NUMBER,
-  game_id         VARCHAR2(30),
-	skin_name		    VARCHAR2(30),
-	champ_name		  VARCHAR2(30),
-	sum_winrate		  NUMBER,
-	total_games		  NUMBER,
-	sum_most_played	VARCHAR2(30),
-	sum_team_color	VARCHAR2(30)
+  sum_name		VARCHAR2(30),
+  rank_number		NUMBER,
+  game_id               VARCHAR2(30),
+  skin_name		VARCHAR2(30),
+  champ_name		VARCHAR2(30),
+  sum_winrate		NUMBER,
+  total_games		NUMBER,
+  sum_most_played	VARCHAR2(30),
+  sum_team_color	VARCHAR2(30)
 );
 
 CREATE TABLE champion
 (
-	champ_name		  VARCHAR2(30),
-	champ_winrate	  NUMBER,
-	champ_abilities	VARCHAR2(30),
-	champ_counters	VARCHAR2(30)
+  champ_name		VARCHAR2(30),
+  champ_winrate	        NUMBER,
+  champ_abilities	VARCHAR2(30),
+  champ_counters	VARCHAR2(30)
 );
 
 CREATE TABLE skin
 (
-	skin_name		      VARCHAR2(30),
-	skin_type		      VARCHAR2(30),
-	skin_availability 	VARCHAR2(30),
-	skin_release_yr   	VARCHAR2(30)
+  skin_name		VARCHAR2(30),
+  skin_type		VARCHAR2(30),
+  skin_availability 	VARCHAR2(30),
+  skin_release_yr   	VARCHAR2(30)
 );
 
 
 CREATE TABLE champion_skin
 (
-  champ_name    VARCHAR2(30),
-  skin_name     VARCHAR2(30),
-  cs_cost_rp       NUMBER,
-  cs_cost_dol    VARCHAR2(30)
+  champ_name		VARCHAR2(30),
+  skin_name             VARCHAR2(30),
+  cs_cost_rp            NUMBER,
+  cs_cost_dol           VARCHAR2(30)
 );
 
 CREATE TABLE rank
 (
-	rank_number		  NUMBER,
+  rank_number     NUMBER,
   rank_division   VARCHAR2(30),
   rank_season     VARCHAR2(30), 
   rank_rewards    VARCHAR2(60)
@@ -53,8 +53,8 @@ CREATE TABLE rank
 
 CREATE TABLE game
 (
-	game_id         VARCHAR2(30),
-	game_type       VARCHAR2(30),
+  game_id         VARCHAR2(30),
+  game_type       VARCHAR2(30),
   game_duration   VARCHAR2(30),
   game_winner     VARCHAR2(30)
 );
